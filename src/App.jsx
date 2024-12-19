@@ -17,8 +17,6 @@ import {AppContext} from "./context.js";
 const urlTodos = `http://localhost:3000/todos`
 
 export const App = function () {
-    const [refresh, setRefresh] = useState(false)
-    const [todos, setTodos] = useState([])
 
     const {searchHandler, filteredAndSorted, searchTitle, sortState, sortTodos} = useRequestSearchTitle( todos, setRefresh, refresh )
     const {addTodo, newTodo, setTodo} = useRequestAddTodo(urlTodos, setRefresh, refresh)
