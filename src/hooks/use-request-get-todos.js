@@ -11,7 +11,7 @@ export const useRequestGetTodos = () => {
             try {
                 const response = await fetch(urlTodos);
                 const todo = response.json()
-                    dispatch({type: 'SET_TODOS', payload: {todos: todo}});
+                    dispatch({type: 'GET_TODOS', payload: {todos: todo}});
             } catch (e) {
                 console.error('Error fetching todos:', e);
             } finally {

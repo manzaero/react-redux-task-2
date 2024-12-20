@@ -1,11 +1,12 @@
-import {useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
 
-
-export const useRequestAddTodo = (urlTodos, setRefresh, refresh) => {
-    const [newTodo, setNewTodo] = useState('')
-
+export const useRequestAddTodo = () => {
+    const newTodo = useSelector(state => state.newTodo)
+    const urlTodos = useSelector(state => state.urlTodos)
+    const dispatch = useDispatch()
+    const refresh = useSelector(state => state.refresh)
     const setTodo = (value) => {
-        setNewTodo(value)
+        dispatch({type: 'SET_TODO', payload: {newTodo: value}});
     }
     const addTodo = () => {
         if  (!newTodo.trim()) return
@@ -18,9 +19,9 @@ export const useRequestAddTodo = (urlTodos, setRefresh, refresh) => {
         })
             .then(todo => todo.json())
             .then(todo => {
-                console.log(todo)
-                setRefresh(!refresh)
-                setNewTodo('')
+                console.log(todo);
+                dispatch({type: 'SET_REFRESH', payload: {refresh: !refresh}});
+                dispatch({type: 'SET_TODO', payload: {newTodo: ''}});
             })
             .catch(err => {
                 console.error('Error:', err)

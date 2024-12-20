@@ -1,7 +1,13 @@
 import styles from "../app.module.css";
-import PropTypes from "prop-types";
+import {useSelector} from "react-redux";
+import {useRequestSearchTitle} from '../hooks/index.js'
 
-export const Input = ({ searchTitle, searchHandler, newTodo, setTodo }) => (
+export const Input = () => {
+    const searchTitle = useSelector(state => state.searchTitle)
+    const {searchHandler, setTodo} = useRequestSearchTitle;
+    const newTodo = useSelector(state => state.newTodo)
+
+    return (
         <>
             <input type="text"
                    placeholder="Search..."
@@ -16,10 +22,5 @@ export const Input = ({ searchTitle, searchHandler, newTodo, setTodo }) => (
                    onChange={(e) => setTodo(e.target.value)}
             />
         </>
-)
-Input.propTypes = {
-    searchTitle: PropTypes.string,
-    searchHandler: PropTypes.func,
-    newTodo: PropTypes.string,
-    setTodo: PropTypes.func,
+    )
 }

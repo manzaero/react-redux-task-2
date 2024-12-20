@@ -1,4 +1,9 @@
-export const useRequestUpdateTodo = (urlTodos, setRefresh, refresh) => {
+import {useDispatch, useSelector} from "react-redux";
+
+export const useRequestUpdateTodo = () => {
+    const  urlTodos = useSelector(state => state.urlTodos);
+    const refresh = useSelector(state => state.refresh);
+    const dispatch = useDispatch();
 
     const updateTodos = (id) => {
         fetch(`${urlTodos}/${id}`, {
@@ -9,7 +14,7 @@ export const useRequestUpdateTodo = (urlTodos, setRefresh, refresh) => {
             .then(todo => todo.json())
             .then(todo => {
                 console.log(todo)
-                setRefresh(!refresh);
+                dispatch({type: 'SET_REFRESH', payload:{refresh: !refresh}});
             })
             .catch(err => {
                 console.error('Error:', err)

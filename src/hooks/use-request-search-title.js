@@ -1,20 +1,24 @@
 import {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
 
-export const useRequestSearchTitle = ( todos, setRefresh, refresh ) => {
-    const [sortState, setSortState] = useState(false)
-    const [searchTitle, setSearchTitle] = useState('')
-    const [debouncedSearchTitle, setDebouncedSearchTitle] = useState('')
+export const useRequestSearchTitle = () => {
+    const searchTitle = useSelector(state => state.searchTitle)
+    const sortState = useSelector(state => state.sortState)
+    const debouncedSearchTitle = useSelector(state => state.debouncedSearchTitle)
+    const todos = useSelector(state => state.todos)
+    const dispatch = useDispatch();
+    const refresh = useSelector(state => state.refresh)
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            setDebouncedSearchTitle(searchTitle)
+            dispatch({type: 'SET_DEBOUNCE_SEARCH_TITLE', payload: {debouncedSearchTitle: searchTitle}});
         }, 600)
 
         return () => clearTimeout(timer)
     }, [searchTitle])
 
     const searchHandler = (value) => {
-        setSearchTitle(value)
+        dispatch({type: 'SET_SEARCH_TITLE', payload: {searchTitle: value}})
     }
 
     const resultFoundTodos = () => {
@@ -26,9 +30,9 @@ export const useRequestSearchTitle = ( todos, setRefresh, refresh ) => {
     }
 
     const sortTodos = () => {
-        setSortState(sortState => !sortState);
+        dispatch({type: 'SET_SORT_STATE', payload: {sortState: !sortState}})
         console.log(sortState)
-        setRefresh(!refresh)
+        dispatch({type: 'SET_REFRESH', payload: {refresh: !refresh}})
     }
 
     const getSortedTodos = (todosToSort) => {
