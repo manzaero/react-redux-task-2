@@ -1,0 +1,1 @@
+export const useDebouncedSearchTitle = state => state.stateStore.debouncedSearchTitle

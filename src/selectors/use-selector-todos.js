@@ -1,0 +1,1 @@
+export const useTodos = (state) => state.otherStore.todos

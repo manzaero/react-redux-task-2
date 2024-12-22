@@ -1,13 +1,21 @@
 import {Buttons} from "./Buttons.jsx";
-import PropTypes from "prop-types";
+import {useRequestAddTodo, useRequestSearchTitle} from "../../hooks/index.js";
+import {useSelector} from "react-redux";
+import {useNewTodo, useSortState, useTodos} from '../../selectors/index.js'
 
-export const ActionButtons = ({addTodo, newTodo, sortTodos, sortState, todos}) => {
+export const ActionButtons = () => {
+    const {addTodo} = useRequestAddTodo()
+    const {sortTodos} = useRequestSearchTitle()
+    const newTodo = useSelector(useNewTodo)
+    const sortState = useSelector(useSortState)
+    const todos = useSelector(useTodos)
+
     const btnAction = [
         {
             id:1,
             text:'Add todo',
             onClick:() => addTodo(newTodo),
-            disabled:!newTodo.trim(),
+            disabled:typeof newTodo !== 'string' || !newTodo.trim(),
         },{
             id:2,
             text:`${!sortState ? 'Sort' : 'Return'}`,
@@ -28,11 +36,4 @@ export const ActionButtons = ({addTodo, newTodo, sortTodos, sortState, todos}) =
                 ))}
         </>
     )
-}
-ActionButtons.propTypes = {
-    addTodo: PropTypes.func.isRequired,
-    newTodo: PropTypes.string.isRequired,
-    sortTodos: PropTypes.func.isRequired,
-    sortState: PropTypes.bool.isRequired,
-    todos: PropTypes.array.isRequired,
 }

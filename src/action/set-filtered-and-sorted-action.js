@@ -1,0 +1,1 @@
+export const setFilteredAndSortedAction = (result) => ({type: 'SET_FILTERED_AND_SORTED', payload: {filteredAndSorted: result || []}})

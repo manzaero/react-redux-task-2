@@ -1,0 +1,1 @@
+export const setSortStateAction = (state) => ({type: 'SET_SORT_STATE', payload: {sortState: state}})

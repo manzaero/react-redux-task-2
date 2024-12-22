@@ -1,8 +1,9 @@
 import {TodoItem} from "./TodoItem.jsx";
-import PropTypes from "prop-types";
+import {useSelector} from "react-redux";
+import {useFilteredAndSorted} from "../../selectors/index.js";
 
-export const TodoList = ({filteredAndSorted = []}) => {
-
+export const TodoList = () => {
+    const filteredAndSorted = useSelector(useFilteredAndSorted);
     return (
         <ul>
             {
@@ -15,7 +16,4 @@ export const TodoList = ({filteredAndSorted = []}) => {
             }
         </ul>
     )
-}
-TodoList.propTypes = {
-    filteredAndSorted: PropTypes.array.isRequired,
 }

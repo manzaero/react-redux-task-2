@@ -1,0 +1,1 @@
+export const setDebounceSearchTitle = (debounce) => ({type: 'SET_DEBOUNCE_SEARCH_TITLE', payload: {debouncedSearchTitle:debounce}})

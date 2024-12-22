@@ -1,11 +1,14 @@
 import styles from "../app.module.css";
 import {useSelector} from "react-redux";
-import {useRequestSearchTitle} from '../hooks/index.js'
+import {useRequestAddTodo, useRequestSearchTitle} from '../hooks/index.js'
+import {useNewTodo, useSearchTitle} from "../selectors/index.js";
 
 export const Input = () => {
-    const searchTitle = useSelector(state => state.searchTitle)
-    const {searchHandler, setTodo} = useRequestSearchTitle;
-    const newTodo = useSelector(state => state.newTodo)
+    const searchTitle = useSelector(useSearchTitle)
+    const newTodo = useSelector(useNewTodo)
+    const {searchHandler} = useRequestSearchTitle();
+    const {setTodo} = useRequestAddTodo()
+
 
     return (
         <>

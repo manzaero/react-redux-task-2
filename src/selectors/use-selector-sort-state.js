@@ -1,0 +1,1 @@
+export const useSortState = state => state.stateStore.sortState

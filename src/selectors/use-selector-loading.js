@@ -1,0 +1,1 @@
+export const useLoading = state => state.otherStore.loading

@@ -1,0 +1,1 @@
+export const setRefresh = (refresh) => ({type: 'SET_REFRESH', payload: {refresh}})

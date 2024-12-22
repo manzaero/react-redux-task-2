@@ -1,0 +1,1 @@
+export const useSearchTitle = state => state.stateStore.searchTitle

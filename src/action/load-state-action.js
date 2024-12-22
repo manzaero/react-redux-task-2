@@ -1,0 +1,1 @@
+export const loadStateAction = () => ({type: 'LOAD-STATE'});

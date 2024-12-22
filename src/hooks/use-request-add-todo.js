@@ -1,15 +1,18 @@
 import {useDispatch, useSelector} from "react-redux";
+import {useNewTodo, useRefresh, useUrlTodos} from "../selectors/index.js";
+import {setRefresh, setTodoAction} from "../action/index.js";
 
 export const useRequestAddTodo = () => {
-    const newTodo = useSelector(state => state.newTodo)
-    const urlTodos = useSelector(state => state.urlTodos)
+    const newTodo = useSelector(useNewTodo)
+    const urlTodos = useSelector(useUrlTodos)
+    const refresh = useSelector(useRefresh)
     const dispatch = useDispatch()
-    const refresh = useSelector(state => state.refresh)
+
     const setTodo = (value) => {
-        dispatch({type: 'SET_TODO', payload: {newTodo: value}});
+        dispatch(setTodoAction(value));
     }
     const addTodo = () => {
-        if  (!newTodo.trim()) return
+        if (typeof newTodo !== 'string' || !newTodo.trim()) return;
         fetch(urlTodos, {
             method: 'POST',
             headers: {'Content-type': 'application/json'},
@@ -20,8 +23,8 @@ export const useRequestAddTodo = () => {
             .then(todo => todo.json())
             .then(todo => {
                 console.log(todo);
-                dispatch({type: 'SET_REFRESH', payload: {refresh: !refresh}});
-                dispatch({type: 'SET_TODO', payload: {newTodo: ''}});
+                dispatch(setRefresh(!refresh));
+                dispatch(setTodoAction(''));
             })
             .catch(err => {
                 console.error('Error:', err)

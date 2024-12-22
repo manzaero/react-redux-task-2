@@ -1,0 +1,1 @@
+export const setTodoAction = (param) => ({type: 'SET_TODO', payload: {newTodo: param}})

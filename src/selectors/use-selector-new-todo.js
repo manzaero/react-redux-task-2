@@ -1,0 +1,1 @@
+export const useNewTodo = (state) => state.stateStore.newTodo

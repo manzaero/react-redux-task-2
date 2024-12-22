@@ -1,38 +1,40 @@
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
+import {useDebouncedSearchTitle, useRefresh, useSearchTitle, useSortState, useTodos} from "../selectors/index.js";
+import {setFilteredAndSortedAction, setRefresh, setSortStateAction, searchTitleAction, setDebounceSearchTitle} from "../action/index.js";
 
 export const useRequestSearchTitle = () => {
-    const searchTitle = useSelector(state => state.searchTitle)
-    const sortState = useSelector(state => state.sortState)
-    const debouncedSearchTitle = useSelector(state => state.debouncedSearchTitle)
-    const todos = useSelector(state => state.todos)
+    const searchTitle = useSelector(useSearchTitle)
+    const sortState = useSelector(useSortState)
+    const debouncedSearchTitle = useSelector(useDebouncedSearchTitle)
+    const todos = useSelector(useTodos)
+    const refresh = useSelector(useRefresh)
     const dispatch = useDispatch();
-    const refresh = useSelector(state => state.refresh)
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            dispatch({type: 'SET_DEBOUNCE_SEARCH_TITLE', payload: {debouncedSearchTitle: searchTitle}});
+            dispatch(setDebounceSearchTitle(searchTitle));
         }, 600)
 
         return () => clearTimeout(timer)
     }, [searchTitle])
 
     const searchHandler = (value) => {
-        dispatch({type: 'SET_SEARCH_TITLE', payload: {searchTitle: value}})
+        dispatch(searchTitleAction(value))
     }
 
     const resultFoundTodos = () => {
-        if (debouncedSearchTitle.trim() !== '') {
-            return todos.filter(todo => todo.title.toLowerCase().includes(debouncedSearchTitle.toLowerCase()))
+        const todosExam = Array.isArray(todos) ? todos : [];
+        if (debouncedSearchTitle?.trim() !== '') {
+            return todosExam.filter(todo => todo.title.toLowerCase().includes(debouncedSearchTitle.toLowerCase()))
         } else {
-            return todos;
+            return todosExam;
         }
     }
 
     const sortTodos = () => {
-        dispatch({type: 'SET_SORT_STATE', payload: {sortState: !sortState}})
-        console.log(sortState)
-        dispatch({type: 'SET_REFRESH', payload: {refresh: !refresh}})
+        dispatch(setSortStateAction(!sortState))
+        dispatch(setRefresh(!refresh))
     }
 
     const getSortedTodos = (todosToSort) => {
@@ -43,17 +45,15 @@ export const useRequestSearchTitle = () => {
         }
     }
 
-    const [filteredAndSorted, setFilteredAndSorted] = useState([]);
 
     useEffect(() => {
         const result = getSortedTodos(resultFoundTodos());
-        setFilteredAndSorted(result);
+        dispatch(setFilteredAndSortedAction(result));
     }, [debouncedSearchTitle, sortState, todos]);
 
 
     return {
         searchHandler,
-        filteredAndSorted,
         sortTodos,
         sortState,
         searchTitle

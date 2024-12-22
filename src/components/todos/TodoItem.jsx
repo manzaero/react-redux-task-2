@@ -1,10 +1,10 @@
 import styles from '../../app.module.css';
+import {useRequestDeleteTodo, useRequestUpdateTodo} from "../../hooks/index.js";
 import PropTypes from "prop-types";
-import {useContext} from "react";
-import {AppContext} from "../../context.js";
 
 export const TodoItem = ({todo}) => {
-    const {updateTodos, deleteTodo} = useContext(AppContext)
+    const {updateTodos} = useRequestUpdateTodo();
+    const {deleteTodo} = useRequestDeleteTodo();
 
     return (<div className={styles.flex}>
             <li>{todo.title}</li>

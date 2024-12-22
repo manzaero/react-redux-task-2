@@ -1,38 +1,31 @@
 export const initialState = {
     newTodo: '',
     refresh: false,
-    todos: [],
-    loading: true,
-    urlTodos: `http://localhost:3000/todos`,
+    urlTodos: 'http://localhost:3000/todos',
     sortState: false,
     searchTitle: '',
-    debouncedSearchTitle: ''
+    debouncedSearchTitle: '',
+    filteredAndSorted: []
 }
 
-export const useReducers = (state = initialState, action) => {
+export const setReducer = (state = initialState, action) => {
     switch (action.type) {
+        case 'SET_FILTERED_AND_SORTED': {
+            return {
+                ...state,
+                filteredAndSorted: action.payload.filteredAndSorted,
+            }
+        }
         case 'SET_REFRESH': {
             return {
                 ...state,
                 refresh: action.payload.refresh
             }
         }
-        case 'GET_TODOS': {
-            return {
-                ...state,
-                todos: action.payload.todos
-            }
-        }
-        case 'LOAD-STATE': {
-            return {
-                ...state,
-                loading: false
-            }
-        }
         case 'SET_TODO': {
             return {
                 ...state,
-                newTodo: action.payload.newTodo
+                newTodo: String(action.payload.newTodo || '')
             }
         }
         case 'SET_DEBOUNCE_SEARCH_TITLE': {
@@ -50,7 +43,7 @@ export const useReducers = (state = initialState, action) => {
         case 'SET_SORT_STATE': {
             return {
                 ...state,
-                sortSTate: action.state.sortState
+                sortState: action.payload.sortState
             }
         }
         default:

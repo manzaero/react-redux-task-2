@@ -1,0 +1,1 @@
+export const getTodosAction = (payload) => ({type: 'GET_TODOS', payload: {todos: payload}});
