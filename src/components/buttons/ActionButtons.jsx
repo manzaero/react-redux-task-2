@@ -20,7 +20,7 @@ export const ActionButtons = () => {
             id:2,
             text:`${!sortState ? 'Sort' : 'Return'}`,
             onClick:() => sortTodos(),
-            disabled:todos.length === 0,
+            disabled: todos.length === 0,
         },
     ]
     return (

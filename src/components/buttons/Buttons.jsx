@@ -9,7 +9,5 @@ export const Buttons = ({onClick, disabled, children}) => (<button
 </button>)
 
 Buttons.propTypes = {
-    onClick: PropTypes.func.isRequired,
-    disabled: PropTypes.bool,
-    children: PropTypes.node.isRequired,
+    onClick: PropTypes.func.isRequired, disabled: PropTypes.bool, children: PropTypes.node.isRequired,
 }
